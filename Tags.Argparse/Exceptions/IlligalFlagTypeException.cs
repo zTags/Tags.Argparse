@@ -2,6 +2,9 @@ using System;
 
 namespace Tags.Argparse.Exceptions;
 
+/// <summary>
+/// Thrown if there was an Flag that wasn't of type bool
+/// </summary>
 public class IlligalFlagTypeException : Exception {
     public IlligalFlagTypeException()
         : base()

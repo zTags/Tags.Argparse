@@ -7,3 +7,5 @@ SimpleProgram arguments = Parser<SimpleProgram>
     .Parse(args);
 
 Console.WriteLine($"use fullscreen: {arguments.Fullscreen}");
+Console.WriteLine($"Width: {arguments.Width}");
+Console.WriteLine($"Height: {arguments.Height}");

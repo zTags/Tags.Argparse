@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 namespace Tags.Argparse;
 
+/// <summary>
+/// This contains all the methods to actually parse your program's arguments
+/// </summary>
 public class Parser<T>
     where T: new()
 {
@@ -11,6 +14,10 @@ public class Parser<T>
     public bool helpOnEmptyArgs;
     public string help;
 
+    /// <summary>
+    /// Create a new parser for program T
+    /// </summary>
+    /// <exception cref="Tags.Argparse.Exceptions.NoProgramAttributeException">If T doesn't have the Program attribute</exception>
     public static Parser<T> Create() {
         Type program = typeof(T);
         Attribute? attr = Attribute.GetCustomAttribute(program, typeof(ProgramAttribute));
@@ -22,6 +29,12 @@ public class Parser<T>
         return parser;
     }
 
+    /// <summary>
+    /// Parse a string[] into a Program
+    /// </summary>
+    /// <exception cref="Tags.Argparse.Exceptions.IlligalFlagTypeException">Flags must always be of type bool</exception>
+    /// <exception cref="Tags.Argparse.Exceptions.IlligalArgumentTypeException">Arguments must always be of type string</exception>
+    /// <exception cref="Tags.Argparse.Exceptions.NoArgumentValueException">Thrown if you passed a flag without value; e.g. `-w` instead of `-w 1920`</exception>
     public T Parse(string[] args)
     {
         if (generateHelp)
@@ -85,9 +98,9 @@ public class Parser<T>
                 possibleFlags[p.Key].Item2.SetValue(parsed, true);
             else 
                 possibleFlags[p.Key].Item2.SetValue(parsed, false);
+            
+            
         }
-
-        
 
         if (generateHelp)
         {
@@ -105,6 +118,8 @@ public class Parser<T>
                     continue;
                 ArgumentAttribute arg = (ArgumentAttribute) o;
                 possibleArgs.Add(arg.name, (arg, fi));
+                if (fi.FieldType != typeof(string)) 
+                    throw new Exceptions.IlligalArgumentTypeException("Arguments must always be of type string");
 
                 if (generateHelp)
                 {
@@ -114,8 +129,8 @@ public class Parser<T>
                         help += $" | -{arg.name[0]}";
                     }
                     help += $" [{fi.FieldType.ToString()}]";
+                    help += "\n";
                 }
-                help += "\n";
             }
         }
         int count = args.Count();
@@ -127,10 +142,10 @@ public class Parser<T>
                 idx++;
                 if (s == $"--{p.Value.Item1.name}" || (p.Value.Item1.useShort && s == $"-{p.Value.Item1.name[0]}")) {
                     if (idx+1 >= count) {
-                        throw new Exceptions.NoArgumentValueException();
+                        throw new Exceptions.NoArgumentValueException("Couldn't find an argument");
                     }
                     string value = args[idx+1];
-                    // todo: parse value into target type from `FieldInfo.FieldType`, maybe dict with anon funcs that call System.Convert.ToType?
+                    p.Value.Item2.SetValue(parsed, value);
                 }
             }
         }
@@ -149,10 +164,17 @@ public class Parser<T>
         help = "help wasn't generated.";
     }
 
+    /// <summary>
+    /// Set to true if you want to generate help
+    /// </summary>
     public Parser<T> doGenerateHelp(bool b) {
         generateHelp = b;
         return this;
     }
+
+    /// <summary>
+    /// Set to true if you want help if no args were provided
+    /// </summary>
     public Parser<T> doHelpOnEmptyArgs(bool b) {
         helpOnEmptyArgs = b;
         return this;

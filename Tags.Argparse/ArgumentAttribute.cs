@@ -2,6 +2,9 @@ using System;
 
 namespace Tags.Argparse;
 
+/// <summary>
+/// Marks a field as a valid Argument
+/// </summary>
 [AttributeUsage(AttributeTargets.Field, AllowMultiple = false)]
 public class ArgumentAttribute : Attribute 
 {

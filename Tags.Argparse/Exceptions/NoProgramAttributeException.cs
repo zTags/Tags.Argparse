@@ -2,6 +2,9 @@ using System;
 
 namespace Tags.Argparse.Exceptions;
 
+/// <summary>
+/// Thrown if you tried to create an Parser with a class without a Program attribute
+/// </summary>
 public class NoProgramAttributeException : Exception {
     public NoProgramAttributeException()
         : base()

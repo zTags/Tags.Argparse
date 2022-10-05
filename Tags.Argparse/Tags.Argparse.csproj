@@ -6,4 +6,23 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <PropertyGroup>
+    <PackageId>Tags.Argparse</PackageId>
+    <Version>1.0.0</Version>
+    <Authors>tags</Authors>
+    <PackRelease>true</PackRelease>
+    <PackageTags>cli;arguments;</PackageTags>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <RepositoryLink>https://github.com/zTags/Tags.Argparse</RepositoryLink>
+    <Description>
+      Create a CLI for your very own app!
+    </Description>
+    <PackageProjectUrl>https://github.com/zTags/Tags.Argparse</PackageProjectUrl>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="../README.md" Pack="true" PackagePath="\"/>
+  </ItemGroup>
+
 </Project>

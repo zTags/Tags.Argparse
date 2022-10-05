@@ -10,16 +10,16 @@ public class SimpleProgram {
 
     // usage: -w 1920
     [Argument("width", useShort = true)]
-    public int Width;
+    public string Width;
     
     // usage -h 1080
     [Argument("height", useShort = true)]
-    public int Height;
+    public string Height;
 
     // put your default values here
     public SimpleProgram() { 
         Fullscreen = false;
-        Width = 1280;
-        Height = 720;
+        Width = "1280";
+        Height = "720";
     }
 }

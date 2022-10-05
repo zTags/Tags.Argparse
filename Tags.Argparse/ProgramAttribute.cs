@@ -2,12 +2,14 @@
 
 namespace Tags.Argparse;
 
+/// <summary>
+/// Marks a class as a valid Program
+/// </summary>
 [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
 public class ProgramAttribute : Attribute 
 {
     internal string name;
     public double version;
-    public bool subcommands;
     
     public ProgramAttribute(string n)
     {
